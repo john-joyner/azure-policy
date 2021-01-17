@@ -1,0 +1,131 @@
+{
+ "properties": {
+  "displayName": "Deploy Log Analytics agent to Linux Azure Arc machines",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "This policy deploys the Log Analytics agent to Linux Azure Arc machines if the agent isn't installed.",
+  "metadata": {
+   "version": "1.1.0-preview",
+   "category": "Monitoring",
+   "preview": true,
+   "createdBy": "c4ba0006-db28-4353-b752-e9b0558d84ee",
+   "createdOn": "2021-01-16T23:45:27.463597Z",
+   "updatedBy": "c4ba0006-db28-4353-b752-e9b0558d84ee",
+   "updatedOn": "2021-01-17T00:57:49.9890841Z"
+  },
+  "parameters": {
+   "logAnalytics": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Log Analytics workspace",
+     "description": "Specify the Log Analytics workspace the agent should be connected to. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+     "strongType": "omsWorkspace",
+     "assignPermissions": true
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.HybridCompute/machines"
+     },
+     {
+      "field": "Microsoft.HybridCompute/imageOffer",
+      "like": "linux*"
+     }
+    ]
+   },
+   "then": {
+    "effect": "deployIfNotExists",
+    "details": {
+     "type": "Microsoft.HybridCompute/machines/extensions",
+     "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+     ],
+     "existenceCondition": {
+      "allOf": [
+       {
+        "field": "Microsoft.HybridCompute/machines/extensions/type",
+        "equals": "OmsAgentForLinux"
+       },
+       {
+        "field": "Microsoft.HybridCompute/machines/extensions/publisher",
+        "equals": "Microsoft.EnterpriseCloud.Monitoring"
+       },
+       {
+        "field": "Microsoft.HybridCompute/machines/extensions/provisioningState",
+        "equals": "Succeeded"
+       }
+      ]
+     },
+     "deployment": {
+      "properties": {
+       "mode": "incremental",
+       "template": {
+        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+         "vmName": {
+          "type": "string"
+         },
+         "location": {
+          "type": "string"
+         },
+         "logAnalytics": {
+          "type": "string"
+         }
+        },
+        "variables": {
+         "vmExtensionName": "OMSAgentForLinux",
+         "vmExtensionPublisher": "Microsoft.EnterpriseCloud.Monitoring",
+         "vmExtensionType": "OmsAgentForLinux"
+        },
+        "resources": [
+         {
+          "name": "[concat(parameters('vmName'), '/', variables('vmExtensionName'))]",
+          "type": "Microsoft.HybridCompute/machines/extensions",
+          "location": "[parameters('location')]",
+          "apiVersion": "2019-12-12",
+          "properties": {
+           "publisher": "[variables('vmExtensionPublisher')]",
+           "type": "[variables('vmExtensionType')]",
+           "settings": {
+            "workspaceId": "[reference(parameters('logAnalytics'), '2015-03-20').customerId]",
+            "stopOnMultipleConnections": "true"
+           },
+           "protectedSettings": {
+            "workspaceKey": "[listKeys(parameters('logAnalytics'), '2015-03-20').primarySharedKey]"
+           }
+          }
+         }
+        ],
+        "outputs": {
+         "policy": {
+          "type": "string",
+          "value": "[concat('Enabled extension for VM', ': ', parameters('vmName'))]"
+         }
+        }
+       },
+       "parameters": {
+        "vmName": {
+         "value": "[field('name')]"
+        },
+        "location": {
+         "value": "[field('location')]"
+        },
+        "logAnalytics": {
+         "value": "[parameters('logAnalytics')]"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "id": "/subscriptions/2711e753-7d6f-45c4-a113-34c6d49a039a/providers/Microsoft.Authorization/policyDefinitions/21977b64-9752-43b2-9f6c-14478c60dc7b",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "21977b64-9752-43b2-9f6c-14478c60dc7b"
+}

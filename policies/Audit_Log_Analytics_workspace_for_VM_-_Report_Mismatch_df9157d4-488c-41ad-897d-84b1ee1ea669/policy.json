@@ -1,0 +1,49 @@
+{
+ "properties": {
+  "displayName": "Audit Log Analytics workspace for VM - Report Mismatch",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "Reports VMs as non-compliant if they aren't logging to the Log Analytics workspace specified in the policy/initiative assignment.",
+  "metadata": {
+   "version": "1.0.1",
+   "category": "Monitoring",
+   "createdBy": "c4ba0006-db28-4353-b752-e9b0558d84ee",
+   "createdOn": "2021-01-17T00:26:29.1984738Z",
+   "updatedBy": "c4ba0006-db28-4353-b752-e9b0558d84ee",
+   "updatedOn": "2021-01-17T01:00:30.1997532Z"
+  },
+  "parameters": {
+   "logAnalyticsWorkspaceId": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Log Analytics Workspace Id that VMs should be configured for",
+     "description": "This is the Id (GUID) of the Log Analytics Workspace that the VMs should be configured for."
+    }
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Compute/virtualMachines/extensions"
+     },
+     {
+      "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+      "equals": "Microsoft.EnterpriseCloud.Monitoring"
+     },
+     {
+      "field": "Microsoft.Compute/virtualMachines/extensions/settings.workspaceId",
+      "notEquals": "[parameters('logAnalyticsWorkspaceId')]"
+     }
+    ]
+   },
+   "then": {
+    "effect": "audit"
+   }
+  }
+ },
+ "id": "/subscriptions/2711e753-7d6f-45c4-a113-34c6d49a039a/providers/Microsoft.Authorization/policyDefinitions/df9157d4-488c-41ad-897d-84b1ee1ea669",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "df9157d4-488c-41ad-897d-84b1ee1ea669"
+}

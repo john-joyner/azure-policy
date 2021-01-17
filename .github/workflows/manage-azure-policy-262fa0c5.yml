@@ -1,0 +1,54 @@
+name: manage-azure-policy-262fa0c5
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'initiatives/Enable_Azure_Monitor_for_VMs_(_osDisk=Attach,FromImage)_35e26ac074aa43e1957a6a19/**'
+#      - 'policies/Deploy_Log_Analytics_agent_to_Windows_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc66/**'
+#      - 'policies/Deploy_Log_Analytics_agent_for_Linux_VMs_21977b64-9752-43b2-9f6c-14478c60dc6d/**'
+#      - 'policies/Deploy_Dependency_agent_to_Windows_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc5f/**'
+#      - 'policies/Deploy_Log_Analytics_agent_to_Linux_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc7b/**'
+#      - 'policies/Deploy_Dependency_agent_to_hybrid_Linux_Azure_Arc_machines_70a2bcea-9465-4943-9e34-747897ae7953/**'
+#      - 'policies/Audit_Dependency_agent_deployment_-_VM_Image_(OS)_unlisted_9fbbceea-35bf-4ae7-b4a1-17808c2a863f/**'
+#      - 'policies/Audit_Log_Analytics_Agent_Deployment_-_VM_Image_(OS)_unlisted_9fbbceea-35bf-4ae7-b4a1-17808c2a8646/**'
+#      - 'policies/Audit_Log_Analytics_workspace_for_VM_-_Report_Mismatch_df9157d4-488c-41ad-897d-84b1ee1ea669/**'
+#      - 'policies/Deploy_Dependency_agent_for_Linux_virtual_machines_ee3689aa-4b0d-4a98-b20b-8131e8d0d000/**'
+#      - 'policies/Deploy_Log_Analytics_agent_for_Windows_VMs_(_osDisk=Attach,FromImage)_fa979aa8-c055-40ce-97c9-bfbef1a1504a/**'
+#      - 'policies/Deploy_Dependency_agent_for_Windows_virtual_machines_(_osDisk=Attach,FromImage)_fa979aa8-c055-40ce-97c9-bfbef1a159d4/**'
+#      - .github/workflows/manage-azure-policy-262fa0c5.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_262fa0c5}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          initiatives/Enable_Azure_Monitor_for_VMs_(_osDisk=Attach,FromImage)_35e26ac074aa43e1957a6a19/**
+          policies/Deploy_Log_Analytics_agent_to_Windows_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc66/**
+          policies/Deploy_Log_Analytics_agent_for_Linux_VMs_21977b64-9752-43b2-9f6c-14478c60dc6d/**
+          policies/Deploy_Dependency_agent_to_Windows_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc5f/**
+          policies/Deploy_Log_Analytics_agent_to_Linux_Azure_Arc_machines_21977b64-9752-43b2-9f6c-14478c60dc7b/**
+          policies/Deploy_Dependency_agent_to_hybrid_Linux_Azure_Arc_machines_70a2bcea-9465-4943-9e34-747897ae7953/**
+          policies/Audit_Dependency_agent_deployment_-_VM_Image_(OS)_unlisted_9fbbceea-35bf-4ae7-b4a1-17808c2a863f/**
+          policies/Audit_Log_Analytics_Agent_Deployment_-_VM_Image_(OS)_unlisted_9fbbceea-35bf-4ae7-b4a1-17808c2a8646/**
+          policies/Audit_Log_Analytics_workspace_for_VM_-_Report_Mismatch_df9157d4-488c-41ad-897d-84b1ee1ea669/**
+          policies/Deploy_Dependency_agent_for_Linux_virtual_machines_ee3689aa-4b0d-4a98-b20b-8131e8d0d000/**
+          policies/Deploy_Log_Analytics_agent_for_Windows_VMs_(_osDisk=Attach,FromImage)_fa979aa8-c055-40ce-97c9-bfbef1a1504a/**
+          policies/Deploy_Dependency_agent_for_Windows_virtual_machines_(_osDisk=Attach,FromImage)_fa979aa8-c055-40ce-97c9-bfbef1a159d4/**
