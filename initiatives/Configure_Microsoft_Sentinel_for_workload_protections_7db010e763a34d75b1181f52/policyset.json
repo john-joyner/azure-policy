@@ -1,0 +1,85 @@
+{
+ "properties": {
+  "displayName": "Configure Microsoft Sentinel for workload protections",
+  "policyType": "Custom",
+  "description": "Enable Microsoft Sentinel connections to data sources. Takes Log Analytics workspace as parameter.",
+  "metadata": {
+   "version": "1.0.0",
+   "category": "Monitoring",
+   "parameterScopes": {
+    "logAnalytics": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e",
+    "logAnalyticsWorkspaceId": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e"
+   },
+   "createdBy": "b39cfbc2-d69e-40eb-bc3b-109f6e80a733",
+   "createdOn": "2022-01-13T23:32:05.339928Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "logAnalytics_1": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Log Analytics workspace",
+     "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+     "strongType": "omsWorkspace"
+    }
+   }
+  },
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "Configure Azure Activity logs to stream to specified Log Analytics workspace_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f",
+    "parameters": {
+     "logAnalytics": {
+      "value": "[parameters('logAnalytics_1')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure diagnostic settings for storage accounts to Log Analytics workspace_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6f8f98a4-f108-47cb-8e98-91a0d85cd474",
+    "parameters": {
+     "logAnalytics": {
+      "value": "[parameters('logAnalytics_1')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure diagnostic settings for Azure Network Security Groups to Log Analytics workspace_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/98a2e215-5382-489e-bd29-32e7190a39ba",
+    "parameters": {
+     "logAnalytics": {
+      "value": "[parameters('logAnalytics_1')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Key Vault to Log Analytics workspace_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47",
+    "parameters": {
+     "logAnalytics": {
+      "value": "[parameters('logAnalytics_1')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure SQL database servers diagnostic settings to Log Analytics workspace_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7ea8a143-05e3-4553-abfe-f56bef8b0b70",
+    "parameters": {
+     "logAnalyticsWorkspaceId": {
+      "value": "[parameters('logAnalytics_1')]"
+     }
+    },
+    "groupNames": []
+   }
+  ],
+  "policyDefinitionGroups": []
+ },
+ "id": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e/providers/Microsoft.Authorization/policySetDefinitions/7db010e763a34d75b1181f52",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "7db010e763a34d75b1181f52"
+}
