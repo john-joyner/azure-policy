@@ -7,10 +7,10 @@
    "version": "1.0.0",
    "category": "Monitoring",
    "parameterScopes": {
-    "logAnalytics": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e",
-    "logAnalyticsWorkspaceId": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e"
+    "logAnalytics": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "logAnalyticsWorkspaceId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
    },
-   "createdBy": "b39cfbc2-d69e-40eb-bc3b-109f6e80a733",
+   "createdBy": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
    "createdOn": "2022-01-13T23:32:05.339928Z",
    "updatedBy": null,
    "updatedOn": null
@@ -79,7 +79,7 @@
   ],
   "policyDefinitionGroups": []
  },
- "id": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e/providers/Microsoft.Authorization/policySetDefinitions/7db010e763a34d75b1181f52",
+ "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Authorization/policySetDefinitions/7db010e763a34d75b1181f52",
  "type": "Microsoft.Authorization/policySetDefinitions",
  "name": "7db010e763a34d75b1181f52"
 }
