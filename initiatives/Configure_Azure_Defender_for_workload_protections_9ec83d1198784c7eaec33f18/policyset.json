@@ -1,0 +1,155 @@
+{
+ "properties": {
+  "displayName": "Configure Azure Defender for workload protections",
+  "policyType": "Custom",
+  "description": "Enable Microsoft Defender for Cloud's enhanced security features on all the resource types in your subscription(s).",
+  "metadata": {
+   "category": "Security Center",
+   "version": "1.0.0",
+   "preview": true,
+   "createdBy": "b39cfbc2-d69e-40eb-bc3b-109f6e80a733",
+   "createdOn": "2022-01-11T23:06:56.2943884Z",
+   "updatedBy": "b39cfbc2-d69e-40eb-bc3b-109f6e80a733",
+   "updatedOn": "2022-01-12T17:07:46.5072354Z",
+   "parameterScopes": {
+    "logAnalytics": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e"
+   }
+  },
+  "parameters": {
+   "enableCollectionOfSqlQueriesForSecurityResearch": {
+    "type": "Boolean",
+    "metadata": {
+     "displayName": "Enable collection of SQL queries for security research",
+     "description": "Enable or disable the collection of SQL queries for security research."
+    },
+    "allowedValues": [
+     true,
+     false
+    ],
+    "defaultValue": true
+   },
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the initiative."
+    },
+    "allowedValues": [
+     "DeployIfNotExists",
+     "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+   }
+  },
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "ASC_DeployAzureDefenderForSqlAdvancedThreatProtectionWindowsAgent",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ada9901-073c-444a-9a9a-91865174f0aa",
+    "parameters": {
+     "enableCollectionOfSqlQueriesForSecurityResearch": {
+      "value": "[parameters('enableCollectionOfSqlQueriesForSecurityResearch')]"
+     },
+     "azureDefenderForSqlExtensionTypeToInstall": {
+      "value": "AdvancedThreatProtection.Windows"
+     },
+     "effect": {
+      "value": "[parameters('effect')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "ASC_DeployAzureDefenderForSqlVulnerabilityAssessmentWindowsAgent",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ada9901-073c-444a-9a9a-91865174f0aa",
+    "parameters": {
+     "enableCollectionOfSqlQueriesForSecurityResearch": {
+      "value": "[parameters('enableCollectionOfSqlQueriesForSecurityResearch')]"
+     },
+     "azureDefenderForSqlExtensionTypeToInstall": {
+      "value": "VulnerabilityAssessment.Windows"
+     },
+     "effect": {
+      "value": "[parameters('effect')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for App Service to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b40e7bcd-a1e5-47fe-b9cf-2f534d0bfb7d",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for Azure SQL database to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b99b73e7-074b-4089-9395-b7236f094491",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for DNS to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2370a3c1-4a25-4283-a91a-c9c1a145fb2f",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for Key Vaults to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f725891-01c0-420a-9059-4fa46cb770b7",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for Resource Manager to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b7021b2b-08fd-4dc0-9de7-3c6ece09faf9",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for SQL servers on machines to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/50ea7265-7d8c-429e-9a7d-ca1f410191c3",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for Storage to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/74c30959-af11-47b3-9ed2-a26e03f427a3",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for open-source relational databases to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/44433aa3-7ec2-4002-93ea-65c65ff0310a",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender for servers to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8e86a5b6-b9bd-49d1-8e21-4bb8a0862222",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender to be enabled on SQL servers_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Azure Defender to be enabled on SQL managed instances_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c5a62eb0-c65a-4220-8a4d-f70dd4ca95dd",
+    "parameters": {},
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "Configure Microsoft Defender for Containers to be enabled_1",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c9ddb292-b203-4738-aead-18e2716e858f",
+    "parameters": {},
+    "groupNames": []
+   }
+  ],
+  "policyDefinitionGroups": []
+ },
+ "id": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e/providers/Microsoft.Authorization/policySetDefinitions/9ec83d1198784c7eaec33f18",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "9ec83d1198784c7eaec33f18"
+}
