@@ -12,7 +12,7 @@
    "updatedBy": "b39cfbc2-d69e-40eb-bc3b-109f6e80a733",
    "updatedOn": "2022-01-12T17:07:46.5072354Z",
    "parameterScopes": {
-    "logAnalytics": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e"
+    "logAnalytics": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
    }
   },
   "parameters": {
@@ -149,7 +149,7 @@
   ],
   "policyDefinitionGroups": []
  },
- "id": "/subscriptions/318b3c21-43a9-4b05-8ed3-cd184009466e/providers/Microsoft.Authorization/policySetDefinitions/9ec83d1198784c7eaec33f18",
+ "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Authorization/policySetDefinitions/9ec83d1198784c7eaec33f18",
  "type": "Microsoft.Authorization/policySetDefinitions",
  "name": "9ec83d1198784c7eaec33f18"
 }
