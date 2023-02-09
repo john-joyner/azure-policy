@@ -1,0 +1,32 @@
+name: manage-azure-policy-067b098e
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/Configure_diagnostic_settings_for_Web_apps_to_Log_Analytics_workspace_(Basic_App_Service_plan)_81108481-6323-4a7a-8508-9569939917a9/**'
+#      - .github/workflows/manage-azure-policy-067b098e.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_067b098e}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/Configure_diagnostic_settings_for_Web_apps_to_Log_Analytics_workspace_(Basic_App_Service_plan)_81108481-6323-4a7a-8508-9569939917a9/**
