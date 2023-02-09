@@ -1,0 +1,210 @@
+{
+ "properties": {
+  "displayName": "Configure diagnostic settings for Web apps to Log Analytics workspace (Premium App Service plan)",
+  "policyType": "Custom",
+  "mode": "All",
+  "description": "Deploys the diagnostic settings for App Service web apps to stream resource logs to a Log Analytics workspace when any web app which is missing this diagnostic settings is created or updated. (Includes \"AppServiceAntiVirusScanLogs\" and \"AppServiceFileAuditLogs\" which are only available with Premiuim and Isolated app service plans.)",
+  "metadata": {
+   "category": "App Service",
+   "createdBy": "ef9a0955-8861-4f12-ad3d-2bd764fc341d",
+   "createdOn": "2023-02-09T14:56:08.525881Z",
+   "updatedBy": "ef9a0955-8861-4f12-ad3d-2bd764fc341d",
+   "updatedOn": "2023-02-09T21:32:05.9954474Z"
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "DeployIfNotExists",
+     "AuditIfNotExists",
+     "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+   },
+   "profileName": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Profile name",
+     "description": "The diagnostic settings profile name"
+    },
+    "defaultValue": "webSiteDiagnosticsLogsToWorkspace"
+   },
+   "logAnalytics": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Log Analytics workspace",
+     "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+     "strongType": "omsWorkspace",
+     "assignPermissions": true
+    }
+   },
+   "metricsEnabled": {
+    "type": "Boolean",
+    "metadata": {
+     "displayName": "Enable metrics",
+     "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+     true,
+     false
+    ],
+    "defaultValue": false
+   },
+   "logsEnabled": {
+    "type": "Boolean",
+    "metadata": {
+     "displayName": "Enable logs",
+     "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+    },
+    "allowedValues": [
+     true,
+     false
+    ],
+    "defaultValue": true
+   }
+  },
+  "policyRule": {
+   "if": {
+    "field": "type",
+    "equals": "Microsoft.Web/sites"
+   },
+   "then": {
+    "effect": "[parameters('effect')]",
+    "details": {
+     "type": "Microsoft.Insights/diagnosticSettings",
+     "name": "[parameters('profileName')]",
+     "existenceCondition": {
+      "allOf": [
+       {
+        "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
+        "equals": "[parameters('logsEnabled')]"
+       },
+       {
+        "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+        "equals": "[parameters('metricsEnabled')]"
+       },
+       {
+        "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+        "equals": "[parameters('logAnalytics')]"
+       }
+      ]
+     },
+     "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772",
+      "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+     ],
+     "deployment": {
+      "properties": {
+       "mode": "incremental",
+       "template": {
+        "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+        "contentVersion": "1.0.0.0",
+        "parameters": {
+         "resourceName": {
+          "type": "string"
+         },
+         "location": {
+          "type": "string"
+         },
+         "logAnalytics": {
+          "type": "string"
+         },
+         "metricsEnabled": {
+          "type": "bool"
+         },
+         "logsEnabled": {
+          "type": "bool"
+         },
+         "profileName": {
+          "type": "string"
+         }
+        },
+        "variables": {},
+        "resources": [
+         {
+          "type": "Microsoft.Web/sites/providers/diagnosticSettings",
+          "apiVersion": "2021-05-01-preview",
+          "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+          "location": "[parameters('location')]",
+          "dependsOn": [],
+          "properties": {
+           "workspaceId": "[parameters('logAnalytics')]",
+           "metrics": [
+            {
+             "category": "AllMetrics",
+             "enabled": "[parameters('metricsEnabled')]"
+            }
+           ],
+           "logs": [
+            {
+             "category": "AppServiceAntivirusScanAuditLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceHTTPLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceConsoleLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceFileAuditLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceAppLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceAuditLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServiceIPSecAuditLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            },
+            {
+             "category": "AppServicePlatformLogs",
+             "enabled": "[parameters('logsEnabled')]"
+            }
+           ]
+          }
+         }
+        ],
+        "outputs": {}
+       },
+       "parameters": {
+        "location": {
+         "value": "[field('location')]"
+        },
+        "resourceName": {
+         "value": "[field('fullName')]"
+        },
+        "logAnalytics": {
+         "value": "[parameters('logAnalytics')]"
+        },
+        "metricsEnabled": {
+         "value": "[parameters('metricsEnabled')]"
+        },
+        "logsEnabled": {
+         "value": "[parameters('logsEnabled')]"
+        },
+        "profileName": {
+         "value": "[parameters('profileName')]"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "id": "/subscriptions/073dc83b-22e3-448d-874d-0dee1ec9a39d/providers/Microsoft.Authorization/policyDefinitions/62c160ed-02f6-4ab9-8607-32cc157cff6f",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "62c160ed-02f6-4ab9-8607-32cc157cff6f"
+}
